@@ -1,3 +1,35 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [gitCommands](#gitcommands)
+  - [Am haeufigsten verwendete git Befehle](#am-haeufigsten-verwendete-git-befehle)
+  - [Die vier Ebenen von Git](#die-vier-ebenen-von-git)
+  - [Repository von der CLI erstellen](#repository-von-der-cli-erstellen)
+  - [Repository von Gitlab nach lokal klonen](#repository-von-gitlab-nach-lokal-klonen)
+  - [Repositorystatus anzeigen](#repositorystatus-anzeigen)
+  - [File- und Verzeichnis Historie anschauen](#file--und-verzeichnis-historie-anschauen)
+  - [Dateien in die Staging Area bringen (nötig um zu committen)](#dateien-in-die-staging-area-bringen-n%C3%B6tig-um-zu-committen)
+  - [Dateien aus der Staging Area entfernen/unstagen](#dateien-aus-der-staging-area-entfernenunstagen)
+- [Zeiger auf unterschiedliche (Arbeits) Punkte im Projekt setzen](#zeiger-auf-unterschiedliche-arbeits-punkte-im-projekt-setzen)
+  - [Änderungen rückgängig machen](#%C3%84nderungen-r%C3%BCckg%C3%A4ngig-machen)
+    - [Dateien under Version Control (gestaged)](#dateien-under-version-control-gestaged)
+    - [Commit rückgängig machen (geht nicht bei Merge)](#commit-r%C3%BCckg%C3%A4ngig-machen-geht-nicht-bei-merge)
+    - [Commit löschen (geht auch bei Merge)](#commit-l%C3%B6schen-geht-auch-bei-merge)
+    - [Dateien/Verzeichnisse nicht under Version Control (nicht gestaged) loeschen](#dateienverzeichnisse-nicht-under-version-control-nicht-gestaged-loeschen)
+    - [Repository komplett loeschen](#repository-komplett-loeschen)
+  - [Aenderungen committen (nötig, um zu pushen)](#aenderungen-committen-n%C3%B6tig-um-zu-pushen)
+  - [Remote Repository mit dem Lokalen synchronisieren 'fetch/push'](#remote-repository-mit-dem-lokalen-synchronisieren-fetchpush)
+  - [Geaenderte Files aus der Staging Area nach remote 'pushen'](#geaenderte-files-aus-der-staging-area-nach-remote-pushen)
+  - [Dateien von der Versionskontrolle ausschliessen mit '.gitignore' file](#dateien-von-der-versionskontrolle-ausschliessen-mit-gitignore-file)
+  - [Branching](#branching)
+  - [Noch nicht committete Aenderungen stashen/zwischenparken (ggfs. nötig bei Merge und beim Wechseln in eine andere Branch)](#noch-nicht-committete-aenderungen-stashenzwischenparken-ggfs-n%C3%B6tig-bei-merge-und-beim-wechseln-in-eine-andere-branch)
+  - [Merging](#merging)
+  - [Tags and Tickets	// Tags werden nur explizit gepushed](#tags-and-tickets%09-tags-werden-nur-explizit-gepushed)
+  - [Bisecting (Commit finden, der einen Bug eingebracht hat)](#bisecting-commit-finden-der-einen-bug-eingebracht-hat)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # gitCommands
 
 Kostenlose und gute git Schulung gibt es [hier.](https://www.udacity.com/course/version-control-with-git--ud123.)
