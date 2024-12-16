@@ -328,7 +328,7 @@ Der Agent uebernimmt automatisch die Passworteingabe.
 $ eval "$(ssh-agent -s)"
 > Agent pid 59566
 
-ssh-add ~/.ssh/<ssh-key-name> # Privaten Schluessel (ohne .pub) hinzufuegen
+ssh-add ~/.ssh/'<ssh-key-name>' # Privaten Schluessel (ohne .pub) hinzufuegen
 
 ### SSH-Key in Gitlab hinterlegen
 
@@ -336,7 +336,7 @@ Der oeffentliche Schluessel muss in Gitlab hinterlegt werden, damit die Verbindu
 
 ### Fingerprint des verwendeten SSH-Schluessels auslesen:
 
-ssh-keygen -lf <path_to_key_file>
+ssh-keygen -lf '<path_to_key_file>'
 
 ### SSH-Verbindung ueberpruefen
 
