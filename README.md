@@ -1,6 +1,6 @@
 # gitCommands
 
-Kostenlose und gute git Schulung gibt es [hier.](https://www.udacity.com/course/version-control-with-git--ud123)
+Kostenlose und gute git Schulung gibt es [hier.](https://www.udacity.com/course/version-control-with-git--ud123.)
 
 [Git Dokumentation](https://git-scm.com/book/en/v2)
 
