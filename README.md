@@ -11,7 +11,7 @@
   - [File- und Verzeichnis Historie anschauen](#file--und-verzeichnis-historie-anschauen)
   - [Dateien in die Staging Area bringen (nötig um zu committen)](#dateien-in-die-staging-area-bringen-n%C3%B6tig-um-zu-committen)
   - [Dateien aus der Staging Area entfernen/unstagen](#dateien-aus-der-staging-area-entfernenunstagen)
-- [Zeiger auf unterschiedliche (Arbeits) Punkte im Projekt setzen](#zeiger-auf-unterschiedliche-arbeits-punkte-im-projekt-setzen)
+    - [Zeiger auf unterschiedliche (Arbeits) Punkte im Projekt setzen](#zeiger-auf-unterschiedliche-arbeits-punkte-im-projekt-setzen)
   - [Änderungen rückgängig machen](#%C3%84nderungen-r%C3%BCckg%C3%A4ngig-machen)
     - [Dateien under Version Control (gestaged)](#dateien-under-version-control-gestaged)
     - [Commit rückgängig machen (geht nicht bei Merge)](#commit-r%C3%BCckg%C3%A4ngig-machen-geht-nicht-bei-merge)
@@ -27,6 +27,13 @@
   - [Merging](#merging)
   - [Tags and Tickets	// Tags werden nur explizit gepushed](#tags-and-tickets%09-tags-werden-nur-explizit-gepushed)
   - [Bisecting (Commit finden, der einen Bug eingebracht hat)](#bisecting-commit-finden-der-einen-bug-eingebracht-hat)
+  - [Mit Gitlab via SSH verbinden](#mit-gitlab-via-ssh-verbinden)
+    - [Pruefen, ob ein SSH-Schluessel vorhanden ist](#pruefen-ob-ein-ssh-schluessel-vorhanden-ist)
+    - [Einen SSH-Key erstellen](#einen-ssh-key-erstellen)
+    - [SSH-Agenten zur Schluesselweiterleitung einrichten](#ssh-agenten-zur-schluesselweiterleitung-einrichten)
+    - [SSH-Key in Gitlab hinterlegen](#ssh-key-in-gitlab-hinterlegen)
+    - [Fingerprint des verwendeten SSH-Schluessels auslesen:](#fingerprint-des-verwendeten-ssh-schluessels-auslesen)
+    - [SSH-Verbindung ueberpruefen](#ssh-verbindung-ueberpruefen)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -125,7 +132,8 @@ Kostenlose und gute git Schulung gibt es [hier.](https://www.udacity.com/course/
 | git add . | alles stagen |
 
 ## Dateien aus der Staging Area entfernen/unstagen
-# Zeiger auf unterschiedliche (Arbeits) Punkte im Projekt setzen
+
+### Zeiger auf unterschiedliche (Arbeits) Punkte im Projekt setzen
 | Kommando | Kommentar |
 | ------ | ------ |
 | git reset HEAD `<filename>` | File unstagen |
@@ -279,3 +287,66 @@ Nun kann man seinen Code testen. Ist der Bug noch vorhanden, deklariert man dies
 | ------ | ------ |
 | git status | Zeigt an, dass sich das Repository im Bisecting Modus befindet, indem HEAD auf einen Commit zeigt, der von bisecting ausgewählt wurde. |
 | git bisect reset | WICHTIG: Versetzt das Repository wieder in den Originalzustand. |
+
+## Mit Gitlab via SSH verbinden
+Mittels SSH-Schluessel kann man sich mit Gitlab ohne Benutzernamen-, Passworteingabe oder Access Token verbinden, um Aenderungen zu pushen oder zu pullen etc. Man kann mit dem SSH-Agenten die Schluesselweiterleitung automatisieren,
+sodass eine Passworteingabe für den SSH-Schluessels nicht noetig ist. Man kann den gleichen Schluessel auch auf mehreren Geraeten verwenden, indem man ihn in das dortige ~/.ssh Verzeichnis kopiert. Aus Sicherheitsgruenden sollte man
+fuer verschiedene Anwendungen auch verschiedene SSH-Schluessel verwendet; und diese dann dementsprechend benennt.
+
+### Pruefen, ob ein SSH-Schluessel vorhanden ist
+
+ls -al ~/.ssh
+
+Moegliche Schluesselvarianten sind:
+
+ - id_rsa.pub (Standard)
+
+ - id_ecdsa.pub (veraltet, wird nicht mehr unterstuetzt)
+
+ - id_ed25519.pub (moderner, schneller, quelloffener elliptischen Kurven Schluessel)
+
+Existiert das Verzeichnis ~/.ssh nicht, sind keine SSH-Schluessel vorhanden.
+
+### Einen SSH-Key erstellen
+
+RSA (wenn ed25519 nicht unterstuetzt wird):
+
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+
+Curve25519 (empfohlen):
+
+ssh-keygen -t ed25519 -C "your_email@example.com"
+
+chmod 600 id_ed25519 (oder eigener Schluesselname) # Die Rechte fuer den privaten Schluessel (ohne .pub) stark einschraenken
+
+Bei der Abfrage nach dem Speicherort kann man den Standartort beibehalten. Will man den Schluessel nur fuer eine spezielle Aufgabe verwenden, kann man hier einen aussagekraeftigen Namen angeben. Es sollte unbedingt ein Passwort
+vergeben werden, sodass der Schluessel nicht allein durch Inbesitznahme missbraucht werden kann. Man kann durch Schluesselweiterleitung vermeiden, dass man das Passwort regelmaessig von Hand eingegeben werden muss.
+
+### SSH-Agenten zur Schluesselweiterleitung einrichten
+Der Agent uebernimmt automatisch die Passworteingabe.
+
+$ eval "$(ssh-agent -s)"
+> Agent pid 59566
+
+ssh-add ~/.ssh/<ssh-key-name> # Privaten Schluessel (ohne .pub) hinzufuegen
+
+### SSH-Key in Gitlab hinterlegen
+
+Der oeffentliche Schluessel muss in Gitlab hinterlegt werden, damit die Verbindung aufgebaut werden kann. Niemals den privaten Schluessel weitergeben
+
+### Fingerprint des verwendeten SSH-Schluessels auslesen:
+
+ssh-keygen -lf <path_to_key_file>
+
+### SSH-Verbindung ueberpruefen
+
+ssh -T git@github.com
+
+Moegliche Ausgabe:
+
+> The authenticity of host 'github.com (IP ADDRESS)' can't be established.
+> ED25519 key fingerprint is SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU.
+> Are you sure you want to continue connecting (yes/no)?
+
+Pruefen, ob der SHA256-Wert mit dem vorher ausgelesenen Fingerprint uebereinstimmt, dann mit yes fortfahren. Es sollte eine positive Rueckmeldung verfolgen.
+
