@@ -328,7 +328,7 @@ Der Agent uebernimmt automatisch die Passworteingabe.
 $ eval "$(ssh-agent -s)"
 > Agent pid 59566
 
-ssh-add ~/.ssh/'<ssh-key-name>' # Privaten Schluessel (ohne .pub) hinzufuegen
+ssh-add ~/.ssh/id_ed25519 # Statt 'id_ed25519' den eigenen privaten Schluessel (ohne .pub) hinzufuegen
 
 ### SSH-Key in Gitlab hinterlegen
 
